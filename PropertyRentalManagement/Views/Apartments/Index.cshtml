@@ -1,0 +1,95 @@
+﻿@model IEnumerable<PropertyRentalManagement.Models.Apartment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Apartment information</h1>
+@if (TempData["SuccessMessage"]!=null)
+{
+    <div>
+        @TempData["SuccessMessage"]
+    </div>
+}
+<!-- Search Input -->
+<div class="form-group mt-3">
+    <label class="m-3" for="search">Search Apartments:</label>
+    <input type="text" id="search" class="form-control" placeholder="Enter apartment information">
+</div>
+@if (User.IsInRole("Administrator") || User.IsInRole("Owner") || User.IsInRole("Manager"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Apartment number</th>
+            <th>Description</th>
+            <th>Rent</th>
+            <th>Building</th>
+            <th>Size</th>
+            <th>Status</th>
+            <th>Tenant</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApartmentNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Building.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Size.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tenant.UserName)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("Administrator") || User.IsInRole("Owner") || User.IsInRole("Manager"))
+                        {
+                            <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.ApartmentId">Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ApartmentId">Delete</a>
+
+                        }
+                        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.ApartmentId">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <!-- JavaScript for Search -->
+    <script>
+        $(document).ready(function () {
+            $('#search').on('input', function () {
+                var searchText = $(this).val().toLowerCase();
+                $('tbody tr').each(function () {
+                    var rowText = $(this).text().toLowerCase();
+                    var isMatch = rowText.includes(searchText);
+                    $(this).toggle(isMatch);
+                });
+            });
+        });
+    </script>
+}

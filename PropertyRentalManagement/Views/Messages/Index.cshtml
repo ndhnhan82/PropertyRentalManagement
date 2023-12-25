@@ -1,0 +1,68 @@
+﻿@model IEnumerable<PropertyRentalManagement.Models.Message>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Inbox</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">New message</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Message Content</th>
+            <th>Time stamp</th>
+            <th>Read Status</th>
+            <th>Receiver</th>
+            <th>Sender</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <span class="truncated-content" data-full-content="@Html.DisplayFor(modelItem => item.MessageContent)"></span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Timestamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadStatus.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Receiver.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender.UserName)
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-action="Create" asp-route-id="@item.MessageId">Respond</a>
+                    <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.MessageId">Read</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var elements = document.getElementsByClassName("truncated-content");
+            for (var i = 0; i < elements.length; i++) {
+                var fullContent = elements[i].getAttribute("data-full-content");
+                var truncatedContent = getFirstWords(fullContent, 5);
+                elements[i].textContent = truncatedContent + (fullContent.split(/\s+/).length > 10 ? "..." : "");
+            }
+
+            function getFirstWords(text, count) {
+                var words = text.split(/\s+/);
+                return words.slice(0, count).join(" ");
+            }
+        });
+    </script>
+}

@@ -1,0 +1,58 @@
+﻿@using PropertyRentalManagement.Models
+@model List<PropertyRentalManagement.Models.UserRolesViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>User Manage</h1>
+
+<div class="form-group mt-3">
+    <label class="m-3" for="search">Search Users:</label>
+    <input type="text" id="search" class="form-control" placeholder="Enter user information to search">
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Roles</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Email</td>
+                <td>@user.Address</td>
+                <td>@string.Join(", ", user.Roles.ToList())</td>
+                <td>
+                    <a class="btn btn-success" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>|
+                    <a class="btn btn-warning" asp-controller="UserRoles" asp-action="Edit" asp-route-userId="@user.UserId">Edit</a>|
+                    <a class="btn btn-danger" asp-controller="UserRoles" asp-action="Delete" asp-route-userId="@user.UserId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <!-- JavaScript for Search -->
+    <script>
+        $(document).ready(function () {
+            $('#search').on('input', function () {
+                var searchText = $(this).val().toLowerCase();
+                $('tbody tr').each(function () {
+                    var rowText = $(this).text().toLowerCase();
+                    var isMatch = rowText.includes(searchText);
+                    $(this).toggle(isMatch);
+                });
+            });
+        });
+    </script>
+}

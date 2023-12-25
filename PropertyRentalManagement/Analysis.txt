@@ -1,0 +1,21 @@
+﻿User: 
+
+	1. Property Owner ,Administrator:
+		Operations:
+			- Create/Update/Delete/Search/List any property manager account /Create-Edit
+			- Update/Delete/Search/List any potential tenant account - done
+			- Full control of the Web Site - done
+	2. Property Manager:
+		Operations:
+			- Perform CRUD operations related to buildings - done
+			- Perform CRUD operations related to apartments - done
+			- Keep track of apartments status - done
+			- Schedule potential tenants appointments - done
+			- Respond to potential tenants messages - done
+			- Report any events to the property owner when necessary
+	3. Potential Tenants:
+		Operations:
+			- Create an on-line account through Property Rental Management Web Site - done
+			- View any apartment suitable for their needs - done
+			- Make an appointment with the property manager - done
+			- Send necessary messages to the property manager - done
